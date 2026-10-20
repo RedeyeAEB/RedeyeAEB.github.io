@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>Stewart Platforms</title>
+        <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    </head>
+    <body>
+
+        <tr><td><font color="grey"> <-prev </font></td></tr>
+        <a href="/docs/cablerobot/cablerobothome.html">home</a>
+        <a href="/docs/cablerobot/001-musings_before_committing.html">next-></a>
+
+        <h1>(000) The before times: The Stewart Platform</h1>
+        <p>
+            This project starts in my senior year of high school, where I had a robotics <br>
+            class that was not particular engaging but had a free-for-all final group <br>
+            project where we collectively decided as a group to attempt to make a Stewart <br>
+            platform. Our result wasn't great and I recall that we really only had it go up <br>
+            and down for our final hardware demo as a trivial motion control case. What <br>
+            really matters though is that we all learned a lot, it was my first real foray <br>
+            into having to deal with real-world hardware that wasn't just a cookbook <br>
+            problem in class, and most importantly got me hooked on the idea of this style <br>
+            of parallel motion systems.
+        </p>
+
+        <p>
+            Below is what the hardware actually looks like. Regretfully, I was never able <br>
+            to get my own photo but my sibling by chance had taken a picture of it before <br>
+            graduating. Big note is that most of this mechanical design wasn't mine, even <br>
+            though I certainly contributed some ideas. In this case, I recall wanting to <br>
+            explore parts of the project I knew I didn't fully understand--I could have <br>
+            designed the mechanical portions, but controlling the thing was more enticing. <br>
+            I believe the rack-and-pinion for measuring position was my idea, after we <br>
+            struggled to obtain cheap enough hardware on a short enough notice. I think he <br>
+            had a neat idea to DIY a linear potentiometer, but that solution saw severe <br>
+            hyterisis issues and drifting. The rack-and-pinion drove a rotary encoder that <br>
+            the Arduino Mega would then integrate. <br> 
+            <!--TODO: Scale this image dynamically please!-->
+            <img src="stewart_platform.jpg" alt="The Stewart Platform">
+        </p>
+
+        <p>
+            The rack-and-pinion, while it did actually work with remarkable precision, also <br>
+            had severe issues when being run on a controller as primitive as an Atmel AVR. <br>
+            Even though the linear stages we were using were blisteringly slow, the <br>
+            combined pulse-rate from all six rotary encoders would bog down the MCU with <br>
+            interrupts faster than the poor AVR core could interrupt, even though the <br>
+            total interrupt routine was at best three lines.
+        </p>
+
+        <p>
+            To further complicate the interrupt issue was my portion of the project, math. <br>
+            At the time I had already finished Calc 3 and was in differential equations, <br>
+            although in honesty I wasn't doing too well with hybrid pandemic instruction. <br>
+            While I was able to design a primitive control system that would calculate how <br>
+            fast to run each motor and how to correct for deviations using a proportional- <br>
+            controller, it turned out that the formulation I came up was horribly limited <br>
+            by my available computational power. The math I needed to run on the Arduino <br> 
+            was  32-bit floating point, and it turns out that AVRs don't have a floating <br>
+            point core. Every square-root I needed incurred a ~500 clock penalty, and every <br>
+            new calculation step would require dozens of square roots. Once the arithmatic <br>
+            steps were included, the total time for a single step of the control system to <br>
+            solve would be much of a second. 
+        </p>
+
+        <p>
+            At this point though, I graduated high school and my thoughts were no longer of <br>
+            the Stewart Platform.
+        </p>
+    </body>
+</html>
