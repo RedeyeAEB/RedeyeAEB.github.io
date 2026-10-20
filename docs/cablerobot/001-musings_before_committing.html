@@ -12,8 +12,62 @@
         <h1>(001) Musings About a Parallel Cable Robot</h1>
         
         <p>
-            WORK IN PROGRESS. SORRY :P
+            The earliest evidence of seriously thinking about how to engineer a parallel <br>
+            cable robot comes from when I was finishing my third year in college, and the <br>
+            choice of what I would have to do for my two senior design classes came into <br>
+            question. While this never happened, one idea I considered pitching was a cross<br>
+            departmental project where I would create a 1m gantry and be a member on both <br>
+            on the mechanical team and the electrical team to fulfill the requirements for <br>
+            both undergrad engineering degrees. That system if ever proposed would have not <br>
+            been high performance, certainly enough to whip around some mass but for cost <br>
+            reasons probably implemented with stepper-servos and somewhat flexible line to <br>
+            permit some tolerance in the motor positioning.
         </p>        
+
+        <p>
+            From here, the exact history of how the system developed over time is at best <br>
+            murky, and I'm constructing this from various text messages, emails with <br>
+            professors, and even dates of random scribbles on scrap paper and digital class <br>
+            notes. My next burst seems to be inspired by my mechanical vibrations class, <br>
+            really a mathematical duplicate of my EE systems class but with a mechanical <br>
+            setup and a fear of sqrt(-1). Regardless, it's clear that I had a need for <br>
+            speed, and that I was <i>obsessed</i> with the idea that the speed of sound down a <br>
+            rope could be my limitation--roughly, that if mechanical reflections can not be <br>
+            avoided, a rope that exhibits 1000 m/s longitudal wave propegation that is 4 m <br>
+            long will consequently take 4 ms for any force created by the motor to <br>
+            propagate to the load. This doesn't sound horrible if the gantry gracefully <br>
+            moves around, but given I arbitrarily picked 100 m/s, 1000 m/s wouldn't cut it. <br>
+            Furthermore, terminating a line would be problematic, and ideally I account for <br>
+            a force applied from the motor reflecting on the load, and returning to the <br>
+            drive motor 8 ms after the force was first applied.
+        </p>
+
+        <p>
+            More pragmatically, a fast propegation speed is indicitive of a material with <br>
+            little stretch, and moreover one that has a high ratio of energy transmitted <br>
+            versus energy stored, making for a responsive cable system. Regardless of the <br>
+            exact formulation, the answer I decided on was carbon-fiber-cored rope inspired <br>
+            by the monodirectional carbon fiber construction of the Design-Build-Fly planes <br>
+            I worked on at the time. I envisioned that carbon fiber strands be packed into <br>
+            a ~1.5mm diameter core with every strand going directly down the length of the <br>
+            rope, with a braided sheath to protect the strands. The parameter I cared for <br>
+            most at the time was the incredible 12 km/s propegation speed down such a <br>
+            construction, but it more importantly is an <i>incredibly</i> strong and low <br>
+            elongation material. Using what I know now, I think making a such a custom rope <br>
+            would have been horribly overkill, expensive, and really not that much better <br>
+            than some of the particularly spiffy engineering materials that I had initially <br>
+            overlooked. But, it probably would have worked.
+        </p>
+
+        <p>
+            In same months, I was also getting increasingly disappointed with the lack of <br>
+            engagement my classes were giving me even though I was taking nearly double the <br>
+            classes a normal engineering major at my school would have been taking.
+        </p>
+
+        <p>
+            NOTE: This is not complete. This page will continue.
+        </p>
 
         <a href="/docs/cablerobot/000-the_stewart_platform.html"><-prev</a>
         <a href="/docs/cablerobot/cablerobothome.html">home</a>
