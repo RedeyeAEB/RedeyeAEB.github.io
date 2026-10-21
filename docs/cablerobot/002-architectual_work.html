@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
     <head>
-        <title>Musings About a Parallel Cable Robot</title>
+        <title>Cable Robot Architecture</title>
         <link rel="icon" type="image/x-icon" href="/images/5lvl.ico">
     </head>
     <body>
@@ -49,7 +49,114 @@
         </p>
 
         <p>
-            This page is a narrative in progress. I'll be done in the next few days, hold tight.
+            Next up is the question of moving power around the system. Fundamentally to <br>
+            achieve the specs I want I need to make sure that I have the energy and power <br>
+            requirements satisfied. Gravity is much less aggressive than the numbers I wish <br>
+            to achieve, so I'll neglect it for now. The longest path I have available in a <br>
+            2m cube is travelling from one corner to the opposite corner, 2sqrt(3)m away. <br>
+            If I want to hit 100m/s just for a moment with a linear acceleration profile, <br>
+            the payload needs to go from 0m/s all the way to 100m/s over sqrt(3)m, half of <br>
+            the diagonal distance. Referring to high-school physics,<br>
+            v_f^2 = v_0^2 + 2a[Delta]x; v_0 = 0 <br>
+            a = v_f^2/2/([Delta]x) = 2887m/s/s = 295x Earth's Gravity
+        </p>
+
+        <p>
+            I can't say I have any human experience on what 295x Earth's gravity would feel <br>
+            like, but my engineer brain can find that it's about what I would experience if <br>
+            the London Eye spun once a second and I were a poor fella on that ride. Ow. <br>
+            Another metric that might be relevant is the record for "highest g-force <br>
+            endured - non-voluntary" at <a href="https://www.guinnessworldrecords.com/world-records/67617-highest-g-force-endured-non-voluntary"></a>214g</a>. To be fair to the cable robot though, I would <br>
+            be a bit heavy for the 5kg payload limit I originally envisioned. Speaking of <br>
+            the payload limit, how much power does it even take to sling around that mass? <br>
+            F = ma, W = F[Delta]x, dW/dt = P = Fv, P = mav
+            P = 1.44MW
+        </p>
+        
+        <p>
+            That's a big number, although to be fair it's only going to be for a brief <br>
+            moment. The problem with this though is (neglecting wall power) the ultracaps <br>
+            need to provide all that energy, and then immediately suck it up during regen. <br>
+            I have 44 of these capacitors and in series the 2.7V rating means that the bank <br>
+            can only be charged up to 118.8V, and in practice I'd run it with some overhead <br>
+            at 100V. <i>At perfect efficiency</i> and a 100V bus, I'm effectively asking for a <br>
+            14.4kA pulse out of my capacitor bank into my motors. I'm sorry but even if the <br>
+            ultracaps were capable of that (hint: they're not), that is a genuinely <br>
+            terrifying amount of current to design for. Thus, ultracapacitor current limits <br>
+            the ability for me to get to the target 100m/s. Thus, this suggests that if I <br>
+            really want to hit my arbitrary 100m/s goal, I could just unload the gantry to <br>
+            perhaps 1kg or 500g, leading to a more possible 2880A or 1440A peak current. <br>
+            Still large numbers, but now actually possible with my ultracapacitor bank.
+        </p>
+        
+        <p>
+            So power is annoying, but with some optimizations I can squeeze by during a <br>
+            speed run for the fun of it. What's still problematic are those currents, <br>
+            especially that during the worst-case scenario one motor sees the brunt of it. <br>
+            Say a 100ms movement occurs that ends up being 1kArms during the pulse, and a <br>
+            theoretical motor were wound with a meter of 14AWG with a total resistance of <br>
+            8.3mOhms, and the copper losses were perfectly evenly distributed within the <br>
+            coil. During the pulse, the winding sees 8300W of heating power, resulting in <br>
+            a total energy transfer of 830J. With a total mass of 18.6g and a specific heat <br>
+            capactity of 0.385J/g/C, the copper winding sees a 113C rise. In theory this <br>
+            could work with enough cooling time between pulses, but what this napkin math <br>
+            tells me is that finding/designing a motor for such high currents is going to <br>
+            be tough. While I haven't designed a motor controller before, I have absolutely <br>
+            designed some rather high current solid-state-transformer components and I know <br>
+            getting switches able to pass that amount of current is also problematic. <br>
+            As a final point, despite the 68F capacitance at 100V, the ultracapacitor <br>
+            bus will sag quite a bit and will make mess of the motor dynamics.
+        </p>
+
+        <p>
+            Because of the difficulty of handling such currents without ridiculous losses <br>
+            and component choice, it makes architectural sense to boost the ultracapacitor <br>
+            bus up to a higher bus voltage, and utilize the lovely wide-bandgap parts that <br>
+            are both reasonably accessible and something I routinely design with already. <br>
+            Because the motor controllers will regenerate energy back to the ultracapacitor <br>
+            bus, a converter that connects the two busses needs to be bidirectional. <br>
+            The catch with this is that the capacitors on the higher voltage bus can't be <br>
+            too large, because that means cost; I can minimize the capacitance needed the <br>
+            the faster the bidirectional converter is, and given that I'm the one planning <br>
+            the motion of the gantry the anticipated energy requirements can be fed into <br>
+            the commanded power of that DC/DC converter. This, however, will probably <br>
+            require a training process because I can not anticipate many of the losses this <br>
+            cable robot will have. I've found 1200V SiCFET parts are just about best in <br>
+            terms of price to performance, and given that this bidirectional converter sees <br>
+            brutal low-side currents, I think the best way to manage such a system is a <br>
+            two-level multiphase synchronous buck/boost converter. Both the low and high <br>
+            side switches need to see the higher voltage plus any ringing that may occur, <br>
+            so an 800Vdc bus seems to be a reasonable first ballpark, especially with my <br>
+            own experience in designing +/-750V systems and comfort at up to 1500V. 
+        </p>
+
+        <p>
+            The final power converter I care about at an architectural level is the input <br>
+            stage from the the wall. While I would absolutely love to design some crazy <br>
+            converter for this task, I also have to recognize that until I'm doing <br>
+            sustained movements that wear down the ultracapacitor bus faster than I can <br>
+            b=pull power from the wall, there's not much need for it. Short to medium term <br>
+            plan is rather than going all gung-ho about a matrix converter or DAB topology, <br>
+            possibly even with some multilevel or soft-switched shenanigans, it's better to <br>
+            just use a simple bench supply or ATX PSU with a boost converter to the <br>
+            ultracapacitor bus. 
+        </p>
+
+        <p>
+            The final thing about this whole thing is that I've been throwing around some <br>
+            rather large numbers, especially in volts. Even though I know how to design for <br>
+            these types of power numbers and especially how to be safe around them, that <br>
+            doesn't stop me from being terrified of shocking myself on a high ampacity bus. <br>
+            Thus, if nothing else I want the electronics in this converter to be as close <br>
+            to instrinsically safe as possible. Thus, I want to make it a point of having <br>
+            active discharge hardware at every node that could harm a person, for purposes <br>
+            of this page anything higher than 36V and/or rails that can source more than 5A <br>
+            of current. While conservative, these rules are permissive enough for very-low <br>
+            voltage systems I anticipate using in my design. Furthermore, I intend to have <br>
+            all rails capable of holding considerable energy to have clearly defined and <br>
+            obvious methods of assessing the danger of the system. I don't know what this <br>
+            looks like just yet, but I wanted to make sure that protection is always part <br>
+            of what I work on.
         </p>
 
         <a href="/docs/cablerobot/001-musings_before_committing.html"><-prev</a>
