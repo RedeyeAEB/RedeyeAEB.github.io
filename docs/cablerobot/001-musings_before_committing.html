@@ -7,7 +7,7 @@
     <body>
         <a href="/docs/cablerobot/000-the_stewart_platform.html"><-prev</a>
         <a href="/docs/cablerobot/cablerobothome.html">home</a>
-        <tr><td><font color="grey"> next-> </font></td></tr>
+        <a href="/docs/cablerobot/002-architectual_work.html">next-></a>
 
         <h1>(001) Musings About a Parallel Cable Robot</h1>
         
@@ -62,15 +62,68 @@
         <p>
             In same months, I was also getting increasingly disappointed with the lack of <br>
             engagement my classes were giving me even though I was taking nearly double the <br>
-            classes a normal engineering major at my school would have been taking.
+            classes a normal engineering major at my school should have been taking. The <br>
+            common theme was that many of the classes were simply below the level of <br>
+            material I had seen before, or completely redundant. I've already mentioned <br>
+            vibrations was redundant, but my prior electronics co-op working on forklift <br>
+            systems and the one after on multilevel flying-capacitor solar inverters really <br>
+            made my two lab classes busywork, the compsci-related classes not novel, and <br>
+            only leaving microelectronics left. Good class, wish it wasn't taught quite so <br>
+            surface level, but I still learned and formalized a lot. Regardless, I wanted <br>
+            to do more, and it was decided that I would also design the power converters. <br>
+            To me at the time, this meant the motor controllers rather than using off the <br>
+            shelf parts, as well as designing the AC/DC converter that would yield me <br>
+            power, going as far as to pay attention to PFC and the harmonic spectrum sent <br>
+            to the grid. There was one big gotcha that stood in my way though, like many of <br>
+            my projects before: power. I'm sure I could get a good wallop of power if I <br>
+            were to find the right plug, possibly taking advantage of the fact my apartment <br>
+            has my kitchen and bedroom on opposite sides of a split phase system. But, the <br>
+            fundamental limit how fast I can go is ultimately a function of how much energy <br>
+            I can store, and how much I can yank from the wall. Enough energy storage in <br>
+            in the form of caps is expensive though, so unless I got lucky I only had <br>
+            4800 W available, a far cry from the powers needed for my ultimate goal.
         </p>
 
         <p>
-            NOTE: This is not complete. This page will continue.
+            One day, I get a text message that the aero dept was allowing select students <br>
+            on Design-Build-Fly and Rocketry to ransack the lab of an aerospace professor <br>
+            that left a ton of hardware behind, and that one of them asked me to join to <br>
+            see what's there. I immediately ran over and was prompted anything not tagged <br>
+            was fair game. I grabbed a couple power resistors, but what really changed the <br>
+            game were these banks that in total contained 44x can-sized ultracapacitors. <br>
+            The ultra- prefix is very real I might add, with each being 3000 F, albiet only <br>
+            at 2.7 Vmax each. That right, three <i>thousand</i> farads. I knew of single <br>
+            digit farad supercapacitors and even used one for my electrical senior design, <br>
+            but being able to hold hardware that unapologetically could be described in the <br>
+            kilofarad range remains a high-point of my college experience. 
+        </p>
+
+        <p>
+            <a href="https://xkcd.com/3106/">Relevant XKCD.</a>
+        </p>
+
+        <p>
+            Here's what that haul looked like: <br>
+            <!--TODO: Scale this image dynamically please!-->
+            <img src="aero_lab_haul.jpg" alt="A collection of 44x 3kF capacitors alongside 1kW power resistors.">
+        </p>
+
+        <p>
+            So where am I getting with this? Well, I just got a very large capacitor that <br>
+            entirely solves my energy storage problem. I ended up too busy to continue <br>
+            until after I graduated six months later, but I knew these caps were good for <br>
+            as much as 10kA pulsed and one very simple derivation that showed what I had: <br>
+            0.5 * m * v^2 = 44 * 0.5 * C * V^2 <br>
+            v = sqrt(44 * C * V^2 / m); C = 3kF, V = 2.7V, m = 5kg <br>
+            v = 438 m/s assuming no losses. <br>
+        </p>
+
+        <p>
+            Obviously, "no losses" is carrying a lot of weight, but the energy is there. 
         </p>
 
         <a href="/docs/cablerobot/000-the_stewart_platform.html"><-prev</a>
         <a href="/docs/cablerobot/cablerobothome.html">home</a>
-        <tr><td><font color="grey"> next-> </font></td></tr>
+        <a href="/docs/cablerobot/002-architectual_work.html">next-></a>
     </body>
 </html>

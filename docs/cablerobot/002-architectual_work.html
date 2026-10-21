@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>Musings About a Parallel Cable Robot</title>
+        <link rel="icon" type="image/x-icon" href="/images/5lvl.ico">
+    </head>
+    <body>
+        <a href="/docs/cablerobot/001-musings_before_committing.html"><-prev</a>
+        <a href="/docs/cablerobot/cablerobothome.html">home</a>
+        <tr><td><font color="grey"> next-> </font></td></tr>
+
+        <h1>(002) The Architecture of a Cable Robot</h1>
+        
+        <p>
+            In my previous writeup, I talked about some of the earliest thoughts I had <br>
+            towards making a parallel cable robot. Long story short, I wanted to push the <br>
+            limits of what's possible with such a system, thought a lot about the cable <br>
+            dynamics, and then got my hands on a massive capacitor bank before graduating <br>
+            that fixes a lot of my power availability issues.
+        </p>
+
+        <p>
+            After graduating and finding myself with more time, I first went through my old <br>
+            notes and compiled where my design was at, even if patchwork, and then reasses <br>
+            how realisitic it was or how I could do better. Roughly speaking, I had been my <br>
+            system would have a motion range of 1m, have a total inertial mass of 5kg, and <br>
+            would be capable of a max speed of 100m/s. I opted to increase the size of the <br>
+            gantry from a 1m cube to a 2m cube, yielding a significantly improved zone of <br>
+            workability. After all, the angles involved as the payload approaches the walls <br>
+            inherently means less accelerating force can be applied. It also means that the <br>
+            mass has a longer distance to accelerate and decelerate, allowing for more <br>
+            impressive velocity numbers. That being said, while I do want to play a bit of <br>
+            specifications game, getting to that velocity number really means having an <br>
+            impressive acceleration number, which is where the actual engineering challenge <br>
+            applies.
+        </p>
+
+        <p>
+            After my gantry size was determined, I wanted to start to bound the problem <br>
+            a bit more. To begin, I assumed that the power requirements of such a system <br>
+            would be the major limitation. I also considered that such a gantry system is <br>
+            inherently largely conservative--certainly it takes energy to accelerate a mass <br>
+            to a considerable velocity, but that energy is returned to storage when the <br>
+            motors regenerate the kinetic energy. Obviously, there will be losses--aero, <br>
+            magnetic, conduction, switching, leakage to name a few--and these will have to <br>
+            compensated for by pulling power from the grid. Thus, the useful movements of a <br>
+            high-speed cable robot are limited by the losses overly discharging the <br>
+            ultracapacitor bank faster than the grid converter can keep it topped up.
+        </p>
+
+        <p>
+            This page is a narrative in progress. I'll be done in the next few days, hold tight.
+        </p>
+
+        <a href="/docs/cablerobot/001-musings_before_committing.html"><-prev</a>
+        <a href="/docs/cablerobot/cablerobothome.html">home</a>
+        <tr><td><font color="grey"> next-> </font></td></tr>
+    </body>
+</html>
